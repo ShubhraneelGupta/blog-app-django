@@ -1,0 +1,55 @@
+{% extends "blog/base.html.jinja" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="bg-white shadow-md rounded-lg p-6">
+    <!-- Post Title -->
+    <h1 class="text-3xl font-bold text-gray-900">{{ post.title }}</h1>
+
+    <!-- Post Meta -->
+    <p class="text-lg text-stone-600 mt-2">
+        Published {{ post.publish }} by <span class="font-semibold">{{ post.author }}</span>
+    </p>
+
+    <!-- Post Body -->
+    <div class="mt-4 text-gray-800">
+        {{ post.body|linebreaks }}
+    </div>
+
+    <!-- Share Button -->
+    <p class="mt-6">
+        <a href="{% url 'blog:post_share' post.id %}" class="text-blue-600 hover:text-blue-800 transition">
+            Share Post
+        </a>
+    </p>
+</article>
+
+<!-- Comments Section -->
+<section class="mt-8 bg-white shadow-md rounded-lg p-6">
+    {% with comments.count as total_comments %}
+    <h2 class="text-2xl font-semibold text-gray-900">
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+    {% endwith %}
+
+    <div class="mt-4 space-y-4">
+        {% for comment in comments %}
+        <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <p class="text-sm text-gray-600">
+                Comment {{ forloop.counter }} by
+                <span class="font-semibold">{{ comment.name }}</span> on {{ comment.created }}
+            </p>
+            <p class="mt-2 text-gray-800">{{ comment.body|linebreaks }}</p>
+        </div>
+        {% empty %}
+        <p class="text-gray-500 text-lg">There are no comments yet...</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Comment Form -->
+<section class="mt-8">
+    {% include "blog/post/includes/comment_form.html" %}
+</section>
+{% endblock %}

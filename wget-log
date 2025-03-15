@@ -1,0 +1,6 @@
+--2025-03-05 14:50:50--  https://str-30.filestore.app/6656b3ac2e573/20daf002e32cb/alternative_resolution_e592213f7b85a_360p.mp4?temp_url_expires=1741252289
+Resolving str-30.filestore.app (str-30.filestore.app)... 2a02:b49:215:5628::1, 88.208.45.132
+Connecting to str-30.filestore.app (str-30.filestore.app)|2a02:b49:215:5628::1|:443... connected.
+HTTP request sent, awaiting response... 400 Bad Request
+2025-03-05 14:50:51 ERROR 400: Bad Request.
+

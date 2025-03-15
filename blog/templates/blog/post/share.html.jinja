@@ -1,0 +1,29 @@
+{% extends "blog/base.html.jinja" %}
+
+{% block title %}Share "{{ post.title }}"{% endblock %}
+
+{% block content %}
+<section class="max-w-lg mx-auto bg-white shadow p-4 rounded">
+    {% if sent %}
+    <h1 class="text-xl font-semibold text-green-600">E-mail Sent</h1>
+    <p>"{{ post.title }}" was sent to <span class="font-medium">{{ form.cleaned_data.to }}</span>.</p>
+    {% else %}
+    <h1 class="text-xl font-semibold">Share "{{ post.title }}"</h1>
+    <form method="post" class="mt-4 space-y-3">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label class="block text-sm font-medium">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <p class="text-red-500 text-xs">{{ field.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div class="w-full flex align-left">
+            <button type="submit" class="bg-blue-600 text-white p-2 px-4 rounded hover:bg-blue-700">Send</button>
+        </div>
+    </form>
+    {% endif %}
+</section>
+{% endblock %}

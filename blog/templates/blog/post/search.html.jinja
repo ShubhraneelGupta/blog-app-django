@@ -1,0 +1,55 @@
+{% extends "blog/base.html.jinja" %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    {% if query %}
+    <h1 class="text-3xl font-bold text-gray-900">Posts containing "{{ query }}"</h1>
+    <h3 class="text-lg text-gray-600">
+        {% with results.count as total_results %}
+        Found {{ total_results }} result{{ total_results|pluralize }}
+        {% endwith %}
+    </h3>
+
+    {% for post in results %}
+    <article class="p-6 bg-white shadow-md rounded-lg">
+        <h2 class="text-2xl font-bold text-gray-900 hover:text-gray-700 transition">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </h2>
+        <p class="text-gray-500 text-sm">
+            Published {{ post.publish }} by <span class="font-semibold">{{ post.author }}</span>
+        </p>
+
+        {% if post.tags.all %}
+        <p class="text-sm text-gray-600">
+            <i>Tags:
+                <span class="text-blue-600">{{ post.tags.all | join:", " }}</span>
+            </i>
+        </p>
+        {% else %}
+        <p class="text-sm text-gray-400"><i>No tags</i></p>
+        {% endif %}
+
+        <p class="mt-4 text-gray-800">{{ post.body|truncatewords:30|linebreaks }}</p>
+    </article>
+    {% empty %}
+    <p class="text-center text-gray-500 text-lg">There are no results for your query.</p>
+    {% endfor %}
+
+    <p class="mt-4 text-center">
+        <a href="{% url 'blog:post_search' %}" class="text-blue-600 hover:underline">Search again</a>
+    </p>
+
+    {% else %}
+    <h1 class="text-3xl font-bold text-gray-900">Search for posts</h1>
+    <form method="get" class="mt-4 bg-white p-6 shadow-md rounded-lg">
+        <div class="space-y-4">
+            {{ form.as_p }}
+            <input type="submit" value="Search"
+                class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
